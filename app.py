@@ -12,14 +12,14 @@ selected_regions=st.sidebar.multiselect("Select Region",regions,default=regions)
 df=df[df["Region"].isin(selected_regions)]
 total_sales=df["Sales"].sum()
 total_profit=df["Profit"].sum()
-total_orders=df["Order ID"].sum()
+total_orders=df["Order ID"].nunique()
 profit_margin=(total_profit/total_sales)*100
 
 col1,col2,col3,col4=st.columns(4)
-col1=st.metric("Total Sales",total_sales)
-col1=st.metric("Total Profit",total_profit)
-col1=st.metric("Profit Margin",profit_margin)
-col1=st.metric("Number of Orders",total_orders)
+col1=st.metric("Total Sales",f"${total_sales:,.2f}")
+col1=st.metric("Total Profit",f"${total_profit:,.2f}")
+col1=st.metric("Profit Margin",f"{profit_margin:.2f}%")
+col1=st.metric("Number of Orders",f"{total_orders:,}")
 
 monthly_sales=df.groupby("Year-Month")["Sales"].sum()
 fig=px.line(monthly_sales,title="Monthly Sales Trend")
